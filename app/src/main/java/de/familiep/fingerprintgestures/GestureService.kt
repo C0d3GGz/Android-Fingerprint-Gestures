@@ -5,11 +5,8 @@ import android.accessibilityservice.FingerprintGestureController
 import android.accessibilityservice.FingerprintGestureController.*
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
-import de.familiep.fingerprintgestures.NotificationBarState.*
 
 class GestureService : AccessibilityService() {
-
-    private var notificationBarState = CLOSED
 
     override fun onServiceConnected() {
 
@@ -40,7 +37,6 @@ class GestureService : AccessibilityService() {
 
     private fun openNotificationBar(){
         performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
-        notificationBarState = NOTIFICATIONS_OPEN
     }
 
     private fun closeNotificationBar(){
@@ -49,8 +45,4 @@ class GestureService : AccessibilityService() {
 
     override fun onInterrupt() = Unit
     override fun onAccessibilityEvent(event: AccessibilityEvent?) = Unit
-}
-
-private enum class NotificationBarState {
-    CLOSED, NOTIFICATIONS_OPEN, QUICK_SETTINGS_OPEN
 }
