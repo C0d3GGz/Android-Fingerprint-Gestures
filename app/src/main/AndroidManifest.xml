@@ -3,7 +3,8 @@
           package="de.familiep.fingerprintgestures">
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
 
     <application
             android:allowBackup="true"
@@ -20,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MyAccessibilityService"
+        <service android:name=".GestureService"
                  android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
                  android:label="Gesture Service">
             <intent-filter>
