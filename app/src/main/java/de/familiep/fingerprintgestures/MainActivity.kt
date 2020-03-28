@@ -27,11 +27,13 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    private fun receiverAction(gesture: Int){
-        textView.text = when(gesture){
+    private fun receiverAction(gesture: Int) {
+        textView.text = when (gesture) {
             FINGERPRINT_GESTURE_SWIPE_LEFT -> "Left swipe!"
             FINGERPRINT_GESTURE_SWIPE_RIGHT -> "Right swipe!"
-            else -> { textView.text }
+            else -> {
+                textView.text
+            }
         }
     }
 }
