@@ -5,8 +5,13 @@ import android.accessibilityservice.FingerprintGestureController
 import android.accessibilityservice.FingerprintGestureController.*
 import android.content.Intent
 import android.view.accessibility.AccessibilityEvent
+import de.familiep.fingerprintgestures.GestureService.NotificaitonBarSate.*
 
 class GestureService : AccessibilityService() {
+
+    private enum class NotificaitonBarSate { OPENED, CLOSED }
+
+    private var nbState = CLOSED
 
     override fun onServiceConnected() {
 
@@ -14,7 +19,7 @@ class GestureService : AccessibilityService() {
         val gestureCallback = object : FingerprintGestureController.FingerprintGestureCallback() {
 
             override fun onGestureDetected(gesture: Int) {
-                when(gesture){
+                when (gesture) {
                     FINGERPRINT_GESTURE_SWIPE_DOWN -> openNotificationBar()
                     FINGERPRINT_GESTURE_SWIPE_UP -> closeNotificationBar()
                     FINGERPRINT_GESTURE_SWIPE_LEFT, FINGERPRINT_GESTURE_SWIPE_RIGHT -> broadcastGesture(gesture)
@@ -35,12 +40,16 @@ class GestureService : AccessibilityService() {
         }
     }
 
-    private fun openNotificationBar(){
-        performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
+    private fun openNotificationBar() {
+        when (nbState) {
+            CLOSED -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS).also { nbState = OPENED }
+            OPENED -> performGlobalAction(GLOBAL_ACTION_QUICK_SETTINGS)
+        }
     }
 
-    private fun closeNotificationBar(){
+    private fun closeNotificationBar() {
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        nbState = CLOSED
     }
 
     override fun onInterrupt() = Unit
